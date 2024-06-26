@@ -1,16 +1,17 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler, Fragment } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as BeakerIcon } from '../../../svg/beaker.svg';
 
 type RateGroupProps = {
-    values: string[]; // значения отсортированы по уменьшению
+    values: string[];
     name: string;
     onChange: ChangeEventHandler<HTMLInputElement>;
     checkedValue: string;
 };
 
 const StyledRateGroup = styled.div`
-    direction: rtl;
+    display: inline-flex;
+
     input {
         position: absolute;
         z-index: -1;
@@ -19,38 +20,42 @@ const StyledRateGroup = styled.div`
 
     label {
         display: inline-flex;
-        align-items: center;
-        user-select: none;
+        padding: 0 0.3rem;
+        border-radius: 30%;
     }
 
-    &:hover label svg {
+    svg {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border: none;
+        fill: #337ab7;
+    }
+
+    input:checked ~ label svg {
         fill: #bfe2ff;
     }
 
-    &:hover label:hover svg {
-        fill: #337ab7;
-    }
-`;
-
-const StyledLabel = styled.label<{ $checked: boolean }>`
-    svg {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        flex-shrink: 0;
-        flex-grow: 0;
-        border: none;
-        border-radius: 50%;
-        margin-right: 0.5em;
-        fill: ${(props) => (props.$checked ? '#337ab7' : '#bfe2ff')};
-    }
-
-    &:hover svg {
+    input:checked + label svg {
         fill: #337ab7;
     }
 
-    &:hover ~ label svg {
-        fill: #337ab7;
+    input:focus + label {
+        outline: 2px solid #bfe2ff;
+    }
+
+    &:hover {
+        input + label svg {
+            fill: #337ab7;
+        }
+
+        input:hover ~ label svg {
+            fill: #bfe2ff;
+        }
+
+        input:hover + label svg {
+            fill: #337ab7;
+        }
     }
 `;
 
@@ -62,11 +67,7 @@ const RateGroup: React.FC<RateGroupProps> = ({
 }) => (
     <StyledRateGroup>
         {values.map((value) => (
-            <StyledLabel
-                key={`${name}-${value}`}
-                $checked={value <= checkedValue}
-                aria-label={`Установить ${name} значение ${value}.`}
-            >
+            <Fragment key={`${name}-${value}`}>
                 <input
                     type="radio"
                     id={`${name}-${value}`}
@@ -75,8 +76,13 @@ const RateGroup: React.FC<RateGroupProps> = ({
                     name={name}
                     onChange={onChange}
                 />
-                <BeakerIcon />
-            </StyledLabel>
+                <label
+                    htmlFor={`${name}-${value}`}
+                    aria-label={`Установить ${name} значение ${value}.`}
+                >
+                    <BeakerIcon />
+                </label>
+            </Fragment>
         ))}
     </StyledRateGroup>
 );

@@ -52,7 +52,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskCreated }) => {
             <fieldset>
                 <legend>Важность</legend>
                 <RateGroup
-                    values={Object.values(priority).reverse()}
+                    values={Object.values(priority)}
                     name="priority"
                     onChange={(e) => {
                         setNewTask({
