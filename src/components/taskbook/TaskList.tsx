@@ -1,33 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 import Task from '../../types/task';
+import TaskCard from './TaskCard';
 
 type TaskListProps = {
-    newTask: Task | undefined;
+    tasks: Task[];
+    cols?: number;
+    rows?: number;
+    removeTask: (task: Task) => void;
 };
 
-const TaskList: React.FC<TaskListProps> = ({ newTask }) => {
-    const [tasks, setTasks] = useState<Task[]>([]);
+const StyledTaskList = styled.ul<{ cols: number; rows: number }>`
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 1rem;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(${(props) => props.cols}, 1fr);
+    grid-template-rows: ${(props) => `repeat(${props.rows}, ${90 / props.rows}%)`};
+    gap: 2%;
+    overflow-y: hidden;
+`;
 
-    useEffect(() => {
-        if (newTask) {
-            setTasks((prevTasks) => [...prevTasks, newTask]);
-        }
-    }, [newTask]);
-
-    return tasks.length ? (
-        <ul>
-            {tasks.map((taskElement) => (
-                <li key={taskElement.id}>
-                    <p>
-                        {taskElement.id}+{taskElement.title}+
-                        {taskElement.description}+{taskElement.priority}
-                    </p>
-                </li>
-            ))}
-        </ul>
-    ) : (
-        <p>Нет задач</p>
-    );
-};
+const TaskList: React.FC<TaskListProps> = ({ tasks, cols = 2, rows = 3, removeTask }) => (
+    <StyledTaskList cols={cols} rows={rows}>
+        {tasks.map((task) => (
+            <TaskCard key={`taskcard-${task.id}`} as="li" task={task} removeTask={removeTask} />
+        ))}
+    </StyledTaskList>
+);
 
 export default TaskList;

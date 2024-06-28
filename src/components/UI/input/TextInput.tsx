@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import colors from '../../../global/colors';
 
 type TextInputProps = {
+    required?: boolean;
     id: string;
     placeholder: string;
     value: string;
@@ -10,8 +11,12 @@ type TextInputProps = {
 };
 
 const StyledTextInput = styled.input`
+    padding: 10px;
     border: solid 2px ${colors.inputBorder};
     outline: none;
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
 
     &:focus {
         border: solid 2px ${colors.inputBorderFocus};
@@ -22,19 +27,8 @@ const StyledTextInput = styled.input`
     }
 `;
 
-const TextInput: React.FC<TextInputProps> = ({
-    id,
-    placeholder,
-    value,
-    onChange,
-}) => (
-    <StyledTextInput
-        type="text"
-        id={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-    />
+const TextInput: React.FC<TextInputProps> = ({ required = false, id, placeholder, value, onChange }) => (
+    <StyledTextInput type="text" required={required} id={id} placeholder={placeholder} value={value} onChange={onChange} />
 );
 
 export default TextInput;
