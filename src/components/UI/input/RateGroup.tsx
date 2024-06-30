@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, Fragment } from 'react';
+import { ChangeEventHandler, FC, Fragment } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as BeakerIcon } from '../../../svg/beaker.svg';
 import colors from '../../../global/colors';
@@ -60,7 +60,7 @@ const StyledRateGroup = styled.div`
     }
 `;
 
-const RateGroup: React.FC<RateGroupProps> = ({ values, name, onChange, checkedValue }) => (
+const RateGroup: FC<RateGroupProps> = ({ values, name, onChange, checkedValue }) => (
     <StyledRateGroup>
         {values.map((value) => (
             <Fragment key={`${name}-${value}`}>

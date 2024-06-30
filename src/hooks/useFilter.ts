@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
-import Filter from '../types/filter';
+import { Filter, SortingType } from '../types/filter';
 import Task from '../types/task';
 
 const useSort = (tasks: Task[], sort: Filter['sort']) => {
     const sortedTasks = useMemo(() => {
         switch (sort) {
-            case 'highToLowPriority':
+            case SortingType.highToLowPriority:
                 return [...tasks].sort((a, b) => Number(b.priority) - Number(a.priority));
-            case 'lowToHighPriority':
+            case SortingType.lowToHighPriority:
                 return [...tasks].sort((a, b) => Number(a.priority) - Number(b.priority));
-            case 'onlySolved':
+            case SortingType.onlySolved:
                 return [...tasks].filter((a) => a.isSolved);
-            case 'onlyUnsolved':
+            case SortingType.onlyUnsolved:
                 return [...tasks].filter((a) => !a.isSolved);
             default:
                 return tasks;

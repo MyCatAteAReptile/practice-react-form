@@ -1,10 +1,13 @@
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import TaskBook from './components/taskbook/TaskBook';
+import AppRouter from './AppRouter';
 
 function App() {
     return (
         <div className="App">
-            <TaskBook />
+            <BrowserRouter>
+                <AppRouter />
+            </BrowserRouter>
         </div>
     );
 }

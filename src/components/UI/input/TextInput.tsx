@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, FC } from 'react';
 import styled from 'styled-components';
 import borders from '../../../global/borders';
 
@@ -13,6 +13,7 @@ type TextInputProps = {
 const StyledTextInput = styled.input`
     padding: 10px;
     border: ${borders.border};
+    border-radius: 8px;
     outline: none;
     font-family: sans-serif;
     font-size: 1rem;
@@ -27,7 +28,7 @@ const StyledTextInput = styled.input`
     }
 `;
 
-const TextInput: React.FC<TextInputProps> = ({ required = false, id, placeholder, value, onChange }) => (
+const TextInput: FC<TextInputProps> = ({ required = false, id, placeholder, value, onChange }) => (
     <StyledTextInput type="text" required={required} id={id} placeholder={placeholder} value={value} onChange={onChange} />
 );
 

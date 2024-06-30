@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import Task from '../../types/task';
 import colors from '../../global/colors';
@@ -74,7 +74,7 @@ const CheckBox = styled.input`
     }
 `;
 
-const TaskCard: React.FC<TaskProps> = ({ as, task, removeTask, changeTaskStatus }) => (
+const TaskCard: FC<TaskProps> = ({ as, task, removeTask, changeTaskStatus }) => (
     <StyledTaskCard as={as} $isSolved={task.isSolved} $borderColor={borderColors[task.priority]}>
         <Title>{task.title}</Title>
         <Description>{task.description}</Description>

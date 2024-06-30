@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import Task from '../../types/task';
 import Button from '../UI/button/Button';
 import TaskList from './TaskList';
-import Filter from '../../types/filter';
+import { Filter } from '../../types/filter';
 import useFilter from '../../hooks/useFilter';
 import borders from '../../global/borders';
 
@@ -44,30 +44,21 @@ const EmptyTasksMessage = styled.p`
     opacity: 0.4;
 `;
 
-const Tasks: React.FC<TasksProps> = ({ tasks = [], onTasksChanged, filter }) => {
-    const [firstTaskIndex, setFirstTaskIndex] = useState(0);
+const Tasks: FC<TasksProps> = ({ tasks = [], onTasksChanged, filter }) => {
+    const [pageNumber, setPageNumber] = useState(0);
     const sortedAndSearchedPosts = useFilter(tasks, filter);
 
-    const getTasksForRender = (tasksArray: Task[], startIndex: number, countToRender: number) => {
-        const endIndex = startIndex + countToRender;
+    const getTasksForRender = (tasksArray: Task[]) => {
+        const startIndex = pageNumber * taskOnPageCount;
+        const endIndex = startIndex + taskOnPageCount;
         const tasksToRender = tasksArray.slice(startIndex, endIndex);
 
         return tasksToRender;
     };
 
     const changeTasksPage = (direction: 'prev' | 'next') => {
-        let nextIndex: number = 0;
-
-        if (direction === 'prev') {
-            nextIndex = firstTaskIndex - taskOnPageCount;
-            nextIndex = nextIndex < 0 ? 0 : nextIndex;
-        }
-        if (direction === 'next') {
-            nextIndex = firstTaskIndex + taskOnPageCount;
-            nextIndex = nextIndex > sortedAndSearchedPosts.length + taskOnPageCount ? 0 : nextIndex;
-        }
-
-        setFirstTaskIndex(nextIndex);
+        if (direction === 'prev') setPageNumber(pageNumber - 1);
+        if (direction === 'next') setPageNumber(pageNumber + 1);
     };
 
     const removeTask = (task: Task) => {
@@ -87,10 +78,10 @@ const Tasks: React.FC<TasksProps> = ({ tasks = [], onTasksChanged, filter }) => 
         <StyledTasks>
             {sortedAndSearchedPosts.length ? (
                 <>
-                    <TaskList tasks={getTasksForRender(sortedAndSearchedPosts, firstTaskIndex, taskOnPageCount)} removeTask={removeTask} changeTaskStatus={changeTaskStatus} />
+                    <TaskList tasks={getTasksForRender(sortedAndSearchedPosts)} removeTask={removeTask} changeTaskStatus={changeTaskStatus} />
                     <Wrapper>
                         <TasksButton
-                            disabled={firstTaskIndex === 0}
+                            disabled={pageNumber === 0}
                             type="button"
                             onClick={() => {
                                 changeTasksPage('prev');
@@ -99,7 +90,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks = [], onTasksChanged, filter }) => 
                             Предыдущие задачи
                         </TasksButton>
                         <TasksButton
-                            disabled={firstTaskIndex + taskOnPageCount >= sortedAndSearchedPosts.length}
+                            disabled={(pageNumber + 1) * taskOnPageCount >= sortedAndSearchedPosts.length}
                             type="button"
                             onClick={() => {
                                 changeTasksPage('next');

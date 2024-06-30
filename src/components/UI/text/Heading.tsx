@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 const StyledHeading = styled.span`
@@ -9,6 +9,6 @@ const StyledHeading = styled.span`
     font-size: 1.2rem;
 `;
 
-const Heading: React.FC<{ children: string; as?: string }> = ({ children, as }) => <StyledHeading as={as}>{children}</StyledHeading>;
+const Heading: FC<{ children: string; as?: string }> = ({ children, as }) => <StyledHeading as={as}>{children}</StyledHeading>;
 
 export default Heading;

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import colors from '../../../global/colors';
 import borders from '../../../global/borders';
@@ -39,7 +39,7 @@ const StyledButton = styled.button`
     }
 `;
 
-const Button: React.FC<ButtonProps> = ({ children, type, onClick, className, disabled = false }) => (
+const Button: FC<ButtonProps> = ({ children, type, onClick, className, disabled = false }) => (
     <StyledButton disabled={disabled} className={className} type={type} onClick={onClick}>
         {children}
     </StyledButton>

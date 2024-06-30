@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import Task from '../../types/task';
 import TaskCard from './TaskCard';
@@ -25,7 +25,7 @@ const StyledTaskList = styled.ul<{ cols: number; rows: number }>`
     overflow-y: hidden;
 `;
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, cols = 2, rows = 3, removeTask, changeTaskStatus }) => (
+const TaskList: FC<TaskListProps> = ({ tasks, cols = 2, rows = 3, removeTask, changeTaskStatus }) => (
     <StyledTaskList cols={cols} rows={rows}>
         {tasks.map((task) => (
             <TaskCard key={`taskcard-${task.id}`} as="li" task={task} removeTask={removeTask} changeTaskStatus={changeTaskStatus} />

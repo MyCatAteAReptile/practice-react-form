@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useState } from 'react';
+import { FC, FormEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import Task from '../../types/task';
 import priority from '../../types/priority';
@@ -18,9 +18,9 @@ type TaskFormProps = {
 const titleMaxLength = 30;
 const descriptionMaxLength = 200;
 const errorMessages = {
-    emptyTitle: 'Введите, пожалуйста, заголовок.',
-    longTitle: `Заголовок должен быть короче ${titleMaxLength} символов.`,
-    longDescription: `Описание должно быть короче ${descriptionMaxLength} символов.`,
+    emptyTitle: 'Введите, пожалуйста, заголовок',
+    longTitle: `Заголовок должен быть короче ${titleMaxLength} символов`,
+    longDescription: `Описание должно быть короче ${descriptionMaxLength} символов`,
 };
 
 const StyledTaskForm = styled.form`
@@ -43,7 +43,7 @@ const Wrapper = styled.label`
     border: none;
 `;
 
-const TaskForm: React.FC<TaskFormProps> = ({ onTaskCreated }) => {
+const TaskForm: FC<TaskFormProps> = ({ onTaskCreated }) => {
     const [error, setError] = useState({ titleError: '', descriptionError: '' });
     const [newTask, setNewTask] = useState<Task>({
         id: 0,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import colors from '../../../global/colors';
 
@@ -15,6 +15,6 @@ const StyledErrorMessage = styled.span`
     font-size: 1rem;
 `;
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ children }) => <StyledErrorMessage aria-live="assertive">{children}</StyledErrorMessage>;
+const ErrorMessage: FC<ErrorMessageProps> = ({ children }) => <StyledErrorMessage aria-live="assertive">{children}</StyledErrorMessage>;
 
 export default ErrorMessage;

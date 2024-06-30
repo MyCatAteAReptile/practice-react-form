@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSearchParams } from 'react-router-dom';
 import TaskForm from './TaskForm';
 import Task from '../../types/task';
 import Tasks from './Tasks';
-import Filter from '../../types/filter';
+import { Filter } from '../../types/filter';
 import TaskFilter from './TaskFilter';
+import { parseFilter } from '../../utils/searchParams';
+import { loadTasks, saveTasks } from '../../utils/localStorage';
 
 const StyledTaskBook = styled.div`
     box-sizing: border-box;
@@ -26,11 +29,13 @@ const Wrapper = styled.div`
 
 const TaskBook = () => {
     const [tasks, setTasks] = useState<Task[]>();
-    const [filter, setFilter] = useState<Filter>({ query: '', sort: 'default' });
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [filter, setFilter] = useState<Filter>(parseFilter(searchParams));
+
     const onTaskCreated = (newTask: Task) => {
         if (newTask) {
             const modifiedTasks = tasks || [];
-            const newTaskId = (modifiedTasks[modifiedTasks.length - 1] && modifiedTasks[modifiedTasks.length - 1].id + 1) || 0;
+            const newTaskId = Math.max(...modifiedTasks.map((task) => task.id)) + 1;
 
             setTasks([...modifiedTasks, { ...newTask, id: newTaskId }]);
         }
@@ -41,16 +46,20 @@ const TaskBook = () => {
     };
 
     useEffect(() => {
-        const savedTasks = localStorage.getItem('tasks');
+        const savedTasks = loadTasks();
 
         if (savedTasks) {
-            setTasks(JSON.parse(savedTasks));
+            setTasks(savedTasks);
         }
     }, []);
 
     useEffect(() => {
+        setSearchParams(filter);
+    }, [setSearchParams, filter]);
+
+    useEffect(() => {
         if (tasks) {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            saveTasks(tasks);
         }
     }, [tasks]);
 

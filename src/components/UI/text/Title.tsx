@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 const StyledTitle = styled.span`
@@ -9,6 +9,6 @@ const StyledTitle = styled.span`
     font-weight: bold;
 `;
 
-const Title: React.FC<{ children: string; as?: string }> = ({ children, as }) => <StyledTitle as={as}>{children}</StyledTitle>;
+const Title: FC<{ children: string; as?: string }> = ({ children, as }) => <StyledTitle as={as}>{children}</StyledTitle>;
 
 export default Title;
