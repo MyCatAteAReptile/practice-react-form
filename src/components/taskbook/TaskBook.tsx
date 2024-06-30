@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TaskForm from './TaskForm';
 import Task from '../../types/task';
@@ -25,13 +25,34 @@ const Wrapper = styled.div`
 `;
 
 const TaskBook = () => {
-    const [task, setTask] = useState<Task | undefined>();
+    const [tasks, setTasks] = useState<Task[]>();
     const [filter, setFilter] = useState<Filter>({ query: '', sort: 'default' });
-    const onTaskCreated = (newTask: Task | undefined) => {
+    const onTaskCreated = (newTask: Task) => {
         if (newTask) {
-            setTask(newTask);
+            const modifiedTasks = tasks || [];
+            const newTaskId = (modifiedTasks[modifiedTasks.length - 1] && modifiedTasks[modifiedTasks.length - 1].id + 1) || 0;
+
+            setTasks([...modifiedTasks, { ...newTask, id: newTaskId }]);
         }
     };
+
+    const onTasksChanged = (newTasks: Task[]) => {
+        setTasks([...newTasks]);
+    };
+
+    useEffect(() => {
+        const savedTasks = localStorage.getItem('tasks');
+
+        if (savedTasks) {
+            setTasks(JSON.parse(savedTasks));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (tasks) {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+    }, [tasks]);
 
     return (
         <StyledTaskBook>
@@ -39,7 +60,7 @@ const TaskBook = () => {
                 <TaskFilter filter={filter} setFilter={setFilter} />
                 <TaskForm onTaskCreated={onTaskCreated} />
             </Wrapper>
-            <Tasks newTask={task} filter={filter} />
+            <Tasks tasks={tasks} onTasksChanged={onTasksChanged} filter={filter} />
         </StyledTaskBook>
     );
 };

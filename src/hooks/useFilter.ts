@@ -9,6 +9,10 @@ const useSort = (tasks: Task[], sort: Filter['sort']) => {
                 return [...tasks].sort((a, b) => Number(b.priority) - Number(a.priority));
             case 'lowToHighPriority':
                 return [...tasks].sort((a, b) => Number(a.priority) - Number(b.priority));
+            case 'onlySolved':
+                return [...tasks].filter((a) => a.isSolved);
+            case 'onlyUnsolved':
+                return [...tasks].filter((a) => !a.isSolved);
             default:
                 return tasks;
         }

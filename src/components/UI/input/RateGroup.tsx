@@ -2,6 +2,7 @@ import React, { ChangeEventHandler, Fragment } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as BeakerIcon } from '../../../svg/beaker.svg';
 import colors from '../../../global/colors';
+import borders from '../../../global/borders';
 
 type RateGroupProps = {
     values: string[];
@@ -29,7 +30,6 @@ const StyledRateGroup = styled.div`
         display: inline-block;
         width: 1.5rem;
         height: 1.5rem;
-        border: none;
         fill: ${colors.rateGroupSvgChecked};
     }
 
@@ -42,7 +42,7 @@ const StyledRateGroup = styled.div`
     }
 
     input:focus + label {
-        outline: 2px solid ${colors.focusOutline};
+        outline: ${borders.borderFocus};
     }
 
     &:hover {
@@ -60,27 +60,12 @@ const StyledRateGroup = styled.div`
     }
 `;
 
-const RateGroup: React.FC<RateGroupProps> = ({
-    values,
-    name,
-    onChange,
-    checkedValue,
-}) => (
+const RateGroup: React.FC<RateGroupProps> = ({ values, name, onChange, checkedValue }) => (
     <StyledRateGroup>
         {values.map((value) => (
             <Fragment key={`${name}-${value}`}>
-                <input
-                    type="radio"
-                    id={`${name}-${value}`}
-                    checked={value === checkedValue}
-                    value={value}
-                    name={name}
-                    onChange={onChange}
-                />
-                <label
-                    htmlFor={`${name}-${value}`}
-                    aria-label={`Установить ${name} значение ${value}.`}
-                >
+                <input type="radio" id={`${name}-${value}`} checked={value === checkedValue} value={value} name={name} onChange={onChange} />
+                <label htmlFor={`${name}-${value}`} aria-label={`Установить ${name} значение ${value}.`}>
                     <BeakerIcon />
                 </label>
             </Fragment>

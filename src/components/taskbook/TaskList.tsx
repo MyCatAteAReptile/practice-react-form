@@ -8,6 +8,7 @@ type TaskListProps = {
     cols?: number;
     rows?: number;
     removeTask: (task: Task) => void;
+    changeTaskStatus: (task: Task, isSolved: boolean) => void;
 };
 
 const StyledTaskList = styled.ul<{ cols: number; rows: number }>`
@@ -24,10 +25,10 @@ const StyledTaskList = styled.ul<{ cols: number; rows: number }>`
     overflow-y: hidden;
 `;
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, cols = 2, rows = 3, removeTask }) => (
+const TaskList: React.FC<TaskListProps> = ({ tasks, cols = 2, rows = 3, removeTask, changeTaskStatus }) => (
     <StyledTaskList cols={cols} rows={rows}>
         {tasks.map((task) => (
-            <TaskCard key={`taskcard-${task.id}`} as="li" task={task} removeTask={removeTask} />
+            <TaskCard key={`taskcard-${task.id}`} as="li" task={task} removeTask={removeTask} changeTaskStatus={changeTaskStatus} />
         ))}
     </StyledTaskList>
 );

@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from 'react';
 import styled from 'styled-components';
-import colors from '../../../global/colors';
+import borders from '../../../global/borders';
 
 type TextAreaInputProps = {
     id: string;
@@ -13,7 +13,7 @@ type TextAreaInputProps = {
 
 const StyledTextArea = styled.textarea`
     box-sizing: border-box;
-    border: solid 2px ${colors.inputBorder};
+    border: ${borders.border};
     outline: none;
     resize: none;
     padding: 10px;
@@ -23,30 +23,16 @@ const StyledTextArea = styled.textarea`
     font-weight: 400;
 
     &:focus {
-        border: solid 2px ${colors.inputBorderFocus};
+        border: ${borders.borderFocus};
     }
 
     &:hover {
-        border: solid 2px ${colors.inputBorderHover};
+        border: ${borders.borderHover};
     }
 `;
 
-const TextArea: React.FC<TextAreaInputProps> = ({
-    id,
-    placeholder,
-    value,
-    onChange,
-    rows = 10,
-    cols = 50,
-}) => (
-    <StyledTextArea
-        id={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        rows={rows}
-        cols={cols}
-    />
+const TextArea: React.FC<TextAreaInputProps> = ({ id, placeholder, value, onChange, rows = 5, cols = 50 }) => (
+    <StyledTextArea id={id} placeholder={placeholder} value={value} onChange={onChange} rows={rows} cols={cols} />
 );
 
 export default TextArea;

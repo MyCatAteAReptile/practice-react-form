@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from 'react';
 import styled from 'styled-components';
-import colors from '../../../global/colors';
+import borders from '../../../global/borders';
 
 type TextInputProps = {
     required?: boolean;
@@ -12,18 +12,18 @@ type TextInputProps = {
 
 const StyledTextInput = styled.input`
     padding: 10px;
-    border: solid 2px ${colors.inputBorder};
+    border: ${borders.border};
     outline: none;
     font-family: sans-serif;
     font-size: 1rem;
     font-weight: 400;
 
     &:focus {
-        border: solid 2px ${colors.inputBorderFocus};
+        border: ${borders.borderFocus};
     }
 
     &:hover {
-        border: solid 2px ${colors.inputBorderHover};
+        border: ${borders.borderHover};
     }
 `;
 

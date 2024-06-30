@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Task from '../../types/task';
 import Button from '../UI/button/Button';
 import TaskList from './TaskList';
-import colors from '../../global/colors';
 import Filter from '../../types/filter';
 import useFilter from '../../hooks/useFilter';
-import defaultTasks from '../../global/defaultTasks';
+import borders from '../../global/borders';
 
 type TasksProps = {
-    newTask: Task | undefined;
+    tasks: Task[] | undefined;
     filter: Filter;
+    onTasksChanged: (newTasks: Task[]) => void;
 };
 
 const taskOnPageCount = 6;
@@ -24,8 +24,9 @@ const StyledTasks = styled.div`
     width: 100%;
     height: 100%;
     padding: 1rem;
-    border: solid 2px ${colors.tasksBorder};
+    border: ${borders.border};
     border-radius: 20px;
+    box-shadow: 0 5px 10px 0 rgba(0 0 0 / 50%);
 `;
 
 const Wrapper = styled.div`
@@ -43,8 +44,7 @@ const EmptyTasksMessage = styled.p`
     opacity: 0.4;
 `;
 
-const Tasks: React.FC<TasksProps> = ({ newTask, filter }) => {
-    const [tasks, setTasks] = useState<Task[]>(defaultTasks);
+const Tasks: React.FC<TasksProps> = ({ tasks = [], onTasksChanged, filter }) => {
     const [firstTaskIndex, setFirstTaskIndex] = useState(0);
     const sortedAndSearchedPosts = useFilter(tasks, filter);
 
@@ -71,20 +71,23 @@ const Tasks: React.FC<TasksProps> = ({ newTask, filter }) => {
     };
 
     const removeTask = (task: Task) => {
-        setTasks(tasks.filter((p) => p.id !== task.id));
+        onTasksChanged(tasks.filter((p) => p.id !== task.id));
     };
 
-    useEffect(() => {
-        if (newTask) {
-            setTasks((prevTasks) => [...prevTasks, newTask]);
+    const changeTaskStatus = (task: Task, isSolved: boolean) => {
+        const taskArray = [...tasks];
+        const updatedTaskId = taskArray.findIndex((p) => p.id === task.id);
+        if (updatedTaskId !== -1) {
+            taskArray[updatedTaskId].isSolved = isSolved;
+            onTasksChanged(taskArray);
         }
-    }, [newTask]);
+    };
 
     return (
         <StyledTasks>
             {sortedAndSearchedPosts.length ? (
                 <>
-                    <TaskList tasks={getTasksForRender(sortedAndSearchedPosts, firstTaskIndex, taskOnPageCount)} removeTask={removeTask} />
+                    <TaskList tasks={getTasksForRender(sortedAndSearchedPosts, firstTaskIndex, taskOnPageCount)} removeTask={removeTask} changeTaskStatus={changeTaskStatus} />
                     <Wrapper>
                         <TasksButton
                             disabled={firstTaskIndex === 0}

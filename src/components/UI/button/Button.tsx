@@ -1,6 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import colors from '../../../global/colors';
+import borders from '../../../global/borders';
 
 type ButtonProps = {
     children: string;
@@ -12,15 +13,20 @@ type ButtonProps = {
 
 const StyledButton = styled.button`
     appearance: none;
+    outline: none;
     padding: 5px;
     background-color: ${colors.defaultButtonBg};
-    border: solid 2px ${colors.defaultButtonBorder};
+    border: ${borders.border};
     border-radius: 5px;
     font-size: 0.9rem;
     font-weight: 400;
 
     &:hover {
         opacity: 0.9;
+    }
+
+    &:focus {
+        border: ${borders.borderFocus};
     }
 
     &:active {
@@ -32,19 +38,8 @@ const StyledButton = styled.button`
     }
 `;
 
-const Button: React.FC<ButtonProps> = ({
-    children,
-    type,
-    onClick,
-    className,
-    disabled = false,
-}) => (
-    <StyledButton
-        disabled={disabled}
-        className={className}
-        type={type}
-        onClick={onClick}
-    >
+const Button: React.FC<ButtonProps> = ({ children, type, onClick, className, disabled = false }) => (
+    <StyledButton disabled={disabled} className={className} type={type} onClick={onClick}>
         {children}
     </StyledButton>
 );
