@@ -7,7 +7,8 @@ const colors = {
     borderCardHigh: '#ff0000',
     rateGroupSvgChecked: '#337ab7',
     rateGroupSvgUnchecked: '#bfe2ff',
-    defaultButtonBg: '#cdd1cf',
+    defaultButtonBg: '#008080',
+    altTextColor: '#ffffff',
     errorMessageColor: '#ff0000',
 };
 

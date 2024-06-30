@@ -10,7 +10,7 @@ const StyledTaskBook = styled.div`
     box-sizing: border-box;
     display: grid;
     width: 90vw;
-    height: 80vh;
+    height: 90vh;
     grid-template-columns: 30% 60%;
     column-gap: 10%;
     align-items: center;
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
 `;
 
 const TaskBook = () => {

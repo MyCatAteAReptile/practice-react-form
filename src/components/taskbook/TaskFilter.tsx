@@ -13,6 +13,7 @@ type TaskFilterProps = {
 };
 
 const StyledTaskFilter = styled.div`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 1rem;

@@ -20,6 +20,7 @@ const StyledButton = styled.button`
     border-radius: 5px;
     font-size: 0.9rem;
     font-weight: 400;
+    color: ${colors.altTextColor};
 
     &:hover {
         opacity: 0.9;
