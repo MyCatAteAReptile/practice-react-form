@@ -21,6 +21,7 @@ const StyledTextArea = styled.textarea`
     font-family: sans-serif;
     font-size: 1rem;
     font-weight: 400;
+    width: 100%;
 
     &:focus {
         border: ${borders.borderFocus};

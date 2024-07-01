@@ -10,6 +10,7 @@ const colors = {
     defaultButtonBg: '#008080',
     altTextColor: '#ffffff',
     errorMessageColor: '#ff0000',
+    defaultBg: '#ffffff',
 };
 
 export default colors;

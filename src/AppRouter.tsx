@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import TaskBook from './components/taskbook/TaskBook';
+import Main from './pages/Main';
 
 const AppRouter = () => (
     <Routes>
-        <Route path="/" element={<TaskBook />} />
+        <Route path="/" element={<Main />} />
         <Route path="*" element={<Navigate replace to="/" />} />
     </Routes>
 );

@@ -16,10 +16,9 @@ const StyledTaskFilter = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    row-gap: 1rem;
     padding: 1rem;
     border: ${borders.border};
-    border-radius: 8px;
     border-radius: 20px;
     box-shadow: 0 5px 10px 0 rgba(0 0 0 / 50%);
 `;

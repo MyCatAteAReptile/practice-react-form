@@ -9,25 +9,19 @@ import Button from '../UI/button/Button';
 import Heading from '../UI/text/Heading';
 import Title from '../UI/text/Title';
 import borders from '../../global/borders';
-import ErrorMessage from '../UI/error/ErrorMessage';
+import ErrorWrapper from '../UI/error/ErrorWrapper';
+import isTaskValid from '../../utils/taskValidation';
+import TaskValidationError from '../../types/error';
 
 type TaskFormProps = {
     onTaskCreated: (newTask: Task) => void;
-};
-
-const titleMaxLength = 30;
-const descriptionMaxLength = 200;
-const errorMessages = {
-    emptyTitle: 'Введите, пожалуйста, заголовок',
-    longTitle: `Заголовок должен быть короче ${titleMaxLength} символов`,
-    longDescription: `Описание должно быть короче ${descriptionMaxLength} символов`,
 };
 
 const StyledTaskForm = styled.form`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    row-gap: 0.5rem;
+    row-gap: 1rem;
     padding: 20px;
     border: ${borders.border};
     border-radius: 20px;
@@ -44,7 +38,7 @@ const Wrapper = styled.label`
 `;
 
 const TaskForm: FC<TaskFormProps> = ({ onTaskCreated }) => {
-    const [error, setError] = useState({ titleError: '', descriptionError: '' });
+    const [error, setError] = useState<TaskValidationError>({ titleError: '', descriptionError: '' });
     const [newTask, setNewTask] = useState<Task>({
         id: 0,
         title: '',
@@ -62,38 +56,15 @@ const TaskForm: FC<TaskFormProps> = ({ onTaskCreated }) => {
         });
     };
 
-    const isTitleFulfilled = (title: string) => title.length !== 0;
-
-    const isTitleValid = (title: string) => title.length <= titleMaxLength;
-
-    const isDescriptionValid = (description: string) => description.length <= descriptionMaxLength;
-
-    const isTaskValid = (task: Task) => {
-        let valid = true;
-
-        if (!isTitleFulfilled(task.title)) {
-            valid = false;
-            setError((prevError) => ({ ...prevError, titleError: errorMessages.emptyTitle }));
-        }
-
-        if (!isTitleValid(task.title)) {
-            valid = false;
-            setError((prevError) => ({ ...prevError, titleError: errorMessages.longTitle }));
-        }
-
-        if (!isDescriptionValid(task.description)) {
-            valid = false;
-            setError((prevError) => ({ ...prevError, descriptionError: errorMessages.longDescription }));
-        }
-
-        return valid;
-    };
-
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        if (isTaskValid(newTask)) {
+        const taskValidation = isTaskValid(newTask);
+
+        if (taskValidation.isTaskValid) {
             onTaskCreated(newTask);
             clearTask();
+        } else {
+            setError(taskValidation.error);
         }
     };
 
@@ -102,29 +73,31 @@ const TaskForm: FC<TaskFormProps> = ({ onTaskCreated }) => {
             <Heading>Новая задача</Heading>
             <Wrapper>
                 <Title as="label">Заголовок</Title>
-                <TextInput
-                    id="title"
-                    placeholder="Введите заголовок"
-                    value={newTask.title}
-                    onChange={(e) => {
-                        setError({ ...error, titleError: '' });
-                        setNewTask({ ...newTask, title: e.target.value });
-                    }}
-                />
-                <ErrorMessage>{error.titleError}</ErrorMessage>
+                <ErrorWrapper errorText={error.titleError}>
+                    <TextInput
+                        id="title"
+                        placeholder="Введите заголовок"
+                        value={newTask.title}
+                        onChange={(e) => {
+                            setError({ ...error, titleError: '' });
+                            setNewTask({ ...newTask, title: e.target.value });
+                        }}
+                    />
+                </ErrorWrapper>
             </Wrapper>
             <Wrapper>
                 <Title as="label">Описание</Title>
-                <TextArea
-                    id="description"
-                    placeholder="Введите описание"
-                    value={newTask.description}
-                    onChange={(e) => {
-                        setError({ ...error, descriptionError: '' });
-                        setNewTask({ ...newTask, description: e.target.value });
-                    }}
-                />
-                <ErrorMessage>{error.descriptionError}</ErrorMessage>
+                <ErrorWrapper errorText={error.descriptionError}>
+                    <TextArea
+                        id="description"
+                        placeholder="Введите описание"
+                        value={newTask.description}
+                        onChange={(e) => {
+                            setError({ ...error, descriptionError: '' });
+                            setNewTask({ ...newTask, description: e.target.value });
+                        }}
+                    />
+                </ErrorWrapper>
             </Wrapper>
             <Wrapper as="fieldset">
                 <Title as="legend">Важность</Title>

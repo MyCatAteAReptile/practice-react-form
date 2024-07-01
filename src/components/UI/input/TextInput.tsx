@@ -11,6 +11,7 @@ type TextInputProps = {
 };
 
 const StyledTextInput = styled.input`
+    box-sizing: border-box;
     padding: 10px;
     border: ${borders.border};
     border-radius: 8px;
@@ -18,6 +19,7 @@ const StyledTextInput = styled.input`
     font-family: sans-serif;
     font-size: 1rem;
     font-weight: 400;
+    width: 100%;
 
     &:focus {
         border: ${borders.borderFocus};
